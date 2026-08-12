@@ -12,7 +12,7 @@ const CONFESSION_LINES = [
   'Here is the truth, Shriya.',
   'You are one of those rare people who make the world feel more alive just by being in it.',
   'Your laugh is contagious. Your kindness is effortless.',
-  "And somewhere along the way, you became someone I genuinely care about — more than I've probably ever admitted.",
+  "I LOVE——— MONEY I ACCEPT EVERY PAYMENT METHOD.",
   'Happy Birthday. I hope this year gives you everything you deserve — which is everything.',
 ];
 
@@ -37,7 +37,7 @@ const FLOAT_ICONS = Array.from({ length: 22 }, (_, i) => ({
   size: 5 + ((i * 3) % 7),
 }));
 
-function Typewriter({ text, speed = 35, onTick }: { text: string; speed?: number; onTick?: () => void }) {
+function Typewriter({ text, speed = 37, onTick }: { text: string; speed?: number; onTick?: () => void }) {
   const [displayed, setDisplayed] = useState('');
 
   useEffect(() => {

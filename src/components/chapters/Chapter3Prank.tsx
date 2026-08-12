@@ -17,7 +17,7 @@ const SCAN_LINES = [
   'Querying Universe_A.birthday_registry...',
   'Querying Parallel_Universe_B records...',
   'Scanning alternate timelines...',
-  'Searching for: AHANA, birthday entry...',
+  'Searching for: SHRIYA, birthday entry...',
 ];
 
 const GLITCH_FRAMES = [
@@ -251,7 +251,7 @@ export function Chapter3Prank({ onComplete, playPrankRevealSfx }: Props) {
                 CRITICAL ERROR — CODE 0xBD_404
               </p>
               <p className="font-mono text-destructive/80 text-xs leading-relaxed">
-                AHANA_BIRTHDAY_DATA: NOT FOUND<br />
+                SHRIYA_BIRTHDAY_DATA: NOT FOUND<br />
                 Searched: 8,100,247,903 records<br />
                 Searched: 47 alternate timelines<br />
                 Searched: 3 parallel universes<br />
@@ -341,7 +341,7 @@ export function Chapter3Prank({ onComplete, playPrankRevealSfx }: Props) {
               style={{ fontSize: 'clamp(1.1rem, 4vw, 2rem)', fontWeight: 800 }}
             >
               <span>🎂</span>
-              <span>HAPPY BIRTHDAY, AHANA!!</span>
+              <span>HAPPY BIRTHDAY, SHRIYA!!</span>
               <span>🎉</span>
             </motion.div>
 

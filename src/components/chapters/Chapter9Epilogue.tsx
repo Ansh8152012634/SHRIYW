@@ -37,49 +37,19 @@ const BOKEH = Array.from({ length: 30 }, (_, i) => ({
 const LETTER_PARAGRAPHS = [
   'One last page...',
   '',
-  "Ig abhi 6:34 huye honge and koi piddi si bouni ye msg padh rahi hogi 😭. Btw aaj ek bohat pyaari si bachi ne janam li thi... Kiki! 👽 Many many happy returns of the day sundri.",
-  '',
-  "Next time toh boli thi DC pe ki 'Mare huye logon jaago, birthday hai mera!' Hehe! I guess tumhare dead log tumko wish kar diye honge. 😭 Aur han ji... cake bake toh khilao ji. Aise buddha hote raho, hamko usse kya matlab? Batao ji. 😂",
+  "Howdy? 🤠 Ig it might be around 12:09 if not then perhaps i would have become lazy and fogot to give you this . I wanted to wish you 1st but I think I'm not? 🤔Maybe 2nd,no? Okay!...Okay! then 3rd? Still no? 🥲. Forget it Wishing you is imp not ranking.",
 
-  "Btw 12 baje Tulip account pe voicenote bhej diya tha. Aur Mimsii ko toh mera birthday 15 Aug pe hai boli thi na, aur aapka birthday 8 June boli thi. 😂 Meri betu ko belt se maarna band karo chudail ji. 🧙🏿‍♀️",
+"You’re actually not just a friend; you’re my built-in best friend. Whenever I talk to you, even for a few minutes, my whole mood changes. I don’t know how, maybe you got some kind of powers?Hmm..🧐",
 
-  "Happy Birthday Mochi (Shriya) 👽",
-  "Happy Birthday Elley (Aditi) 🤡",
-  "Happy Birthday Shatakshi 👺",
-  "Happy Birthday Tulip (Avni) 🪻",
-  "Happy Birthday Divyanshi 🐰",
-  "Happy Birthday meri Gajar ka Halwa 🥕🪦 Miss you!",
-  "Happy Birthday meri bouni 0.0001 mm 😂",
-  "Happy Birthday 🐸 aur 🪳 (khud ho btw 😒)",
-  "Happy Birthday Drumsticks 🍗",
-  "Aur Happy Birthday mere sab favourite kuchu puchu log. Aaj bas enjoy karo! ❤️",
+"No filters, no fake vibes just you and as an introvert, having someone like you is truly a blessing... I could've have wrriten a poem instead of this,but i don't think any poem could do you justice.(yes sirrr! im a poet+writer)",
 
-  "",
+"Well, i could have just wished you like normal ppl like texting 'happy b'day' or posting story then what would be the difference b/w them and me😮‍💨.",
 
-  "Also... sorry for everything. Kya hi bolu. Please don't forgive me... aur hamesha nafrat karna mujhse. 😝",
+"So it's my way of wishing to special ones and this might be the last time I'm making this🥀(ig?). Also sorry for taking your photos without your consent 😝.",
 
-  "Aaj mandir jaunga aur Modi ke isteefa ke liye pray karunga. 😂 Hui hui... last bol raha hoon... hate u! 😒",
+"And don't start with "Call me didi" just cause you are 1yr older than me😒. Chachi You maybe older than me in age but you'll still be a chirkut(Duckiling cute one though)🐥. Now, say 'im the best!' and go enjoy your day.",
 
-  "Party kab doge ji, bouni malkin? 🤓",
-
-  "Aur haan... tumne pucha tha 'dil mein thodi jagah do'... arre pehle se hi ho, isliye kuch bola hi nahi. ❤️",
-
-  "Happy Birthday Papa ji, Mummy ji, Mimsii aur Lucky ki maa! 🎂 Chai ka cake kaatna. 😂",
-
-  "Aur thanks... meri life mein aane ke liye.",
-
-  "Tum toh bolti thi mere se baat karke kaali ho gayi thi na? 🤡 Solly yaar... birthday hai na... Glow & Lovely de dunga. 😂",
-
-  "Padhai achhe se karna. Aur Himakshi wali baat ke liye... sach mein sorry. Main uss way mein nahi bol raha tha, but mujhe pata hai bura laga hoga.",
-
-  "Maharani, gift mein kya chahiye? Pen? Oops... woh toh bench-mate ne de diya hoga. 🤔 Chalo ek aur chashma de deta hoon. 👓",
-
-  "Aur apne mummy papa ko thanks bolna... kyunki unhone tumhe paida kiya. Nahi toh mera kya hota? 🥹",
-
-  "Jaa... enjoy kar kaali billi. 🐈‍⬛ Aur haan... gift mein baal chahiye na? Tantric banne ka shauk hai kya? 😂",
-
-  "",
-
+"",
   "Happy Birthday once again, Shriya. ❤️"
 ];
 
@@ -100,7 +70,7 @@ type Scene =
   | 'gift-card'
   | 'gift-ready'
   // ── New ending (credits → rose) ──
-  | 'credits'       // "Made with ❤️ by Anshu" appears FIRST
+  | 'credits'       // "Made by Ayush" appears FIRST
   | 'rose-grow'     // credits fades, rose stem grows
   | 'rose-bloom'    // petals open + SFX
   | 'final-message' // "Some memories don't fade. They simply bloom."
@@ -406,7 +376,7 @@ export function Chapter9Epilogue({ fadeOutAudio, playGiftReadySfx, playTulipBloo
       </div>
 
       {/* ══════════════════════════════════════════════════════════
-          CREDITS — "Made with ❤️ by Anshu" (appears FIRST)
+          CREDITS — "Made by Ayush" (appears FIRST)
           ══════════════════════════════════════════════════════════ */}
       <AnimatePresence>
         {showCredits && (
@@ -446,7 +416,7 @@ export function Chapter9Epilogue({ fadeOutAudio, playGiftReadySfx, playTulipBloo
                   '0 2px 4px rgba(0,0,0,0.5)',
               }}
             >
-              Made with ❤️ by Anshu
+              Made by Ayush
             </motion.p>
 
             {/* Subtle tagline below */}

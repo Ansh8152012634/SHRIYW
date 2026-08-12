@@ -9,10 +9,10 @@ interface Props {
 }
 
 const MEMORIES = [
-  "That time you laughed so hard you couldn't breathe and I didn't even understand why.",
+  "That time when we roast each other.",
   "The way you talk about things you love — like the whole world should stop and listen.",
   "The small things you notice that no one else does.",
-  "That one conversation that went on way too long but neither of us wanted to stop.",
+  "That time when we talk for hours.",
   "Watching you be kind to someone who didn't deserve it.",
 ];
 

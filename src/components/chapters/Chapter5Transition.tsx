@@ -137,7 +137,7 @@ export function Chapter5Transition({ onComplete, playTypingSfx, playClickSfx }: 
                 className="text-foreground/60 hover:text-primary transition-colors serif tracking-widest uppercase text-sm border-b border-transparent hover:border-primary pb-1"
                 data-testid="button-quiet-continue"
               >
-                Keep reading...
+                Keep reading...(press here)
               </button>
             </motion.div>
           )}
