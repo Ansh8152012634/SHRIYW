@@ -202,7 +202,7 @@ export function Chapter4Quiz({ onComplete, playClickSfx }: Props) {
             <br /><br />
             We have reached one conclusion.
             <br /><br />
-            <span className="text-primary font-semibold">There is only one Ahana.</span>
+            <span className="text-primary font-semibold">There is only one Shriya.</span>
             <br /><br />
             And honestly... that's pretty awesome. ❤️
           </p>

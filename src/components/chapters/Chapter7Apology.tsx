@@ -8,7 +8,7 @@ interface Props {
 }
 
 const APOLOGY_TEXT =
-  "I know I haven't always been perfect. There are things I said, things I didn't say, moments I should have shown up better. I'm sorry, Ahana. Genuinely. You deserved better, and you still do. This isn't just words — I mean every single one.";
+  "I know I haven't always been perfect. There are things I said, things I didn't say, moments I should have shown up better. I'm sorry, Shriya. Genuinely. You deserved better, and you still do. This isn't just words — I mean every single one.";
 
 function getWordDelay(word: string): number {
   if (word.endsWith('.')) return 700;

@@ -43,21 +43,17 @@ function App() {
     }
   }, [audio]);
 
-  // Change mood when chapter changes
+  // Chapter 9 has its own replaceable piano track. Every other chapter keeps
+  // the original synthesized mood music.
   useEffect(() => {
+    if (!audio.isUnlocked) return;
+    if (chapter === 9) {
+      audio.playChapter9Piano();
+      return;
+    }
     const mood = CHAPTER_MOODS[chapter];
-    if (mood && audio.isUnlocked) {
-      audio.playMood(mood);
-    }
-  }, [chapter, audio.isUnlocked]);
-
-  // Start music automatically after unlock
-  useEffect(() => {
-    if (audio.isUnlocked) {
-      const mood = CHAPTER_MOODS[chapter];
-      if (mood) audio.playMood(mood);
-    }
-  }, [audio.isUnlocked]);
+    if (mood) audio.playMood(mood);
+  }, [chapter, audio.isUnlocked, audio.playChapter9Piano, audio.playMood]);
 
   const renderChapter = () => {
     switch (chapter) {

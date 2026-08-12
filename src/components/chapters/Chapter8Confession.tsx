@@ -9,7 +9,7 @@ interface Props {
 }
 
 const CONFESSION_LINES = [
-  'Here is the truth, Ahana.',
+  'Here is the truth, Shriya.',
   'You are one of those rare people who make the world feel more alive just by being in it.',
   'Your laugh is contagious. Your kindness is effortless.',
   "And somewhere along the way, you became someone I genuinely care about — more than I've probably ever admitted.",
@@ -258,7 +258,7 @@ export function Chapter8Confession({ playTypingSfx, playBirthdaySfx, onComplete 
                   >
                     Happy Birthday,
                     <br />
-                    Ahana
+                    Shriya
                   </motion.h1>
 
                   {/* Floating hearts & stars */}

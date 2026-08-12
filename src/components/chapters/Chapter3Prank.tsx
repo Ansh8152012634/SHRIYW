@@ -260,7 +260,7 @@ export function Chapter3Prank({ onComplete, playPrankRevealSfx }: Props) {
             </div>
 
             <p className="text-foreground/60 text-sm mb-4 font-mono">
-              It appears... Ahana was never born?
+              It appears... Shriya was never born?
             </p>
 
             <div className="flex items-center justify-center gap-2 text-destructive/60 text-xs font-mono animate-pulse">

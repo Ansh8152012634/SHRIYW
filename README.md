@@ -1,4 +1,4 @@
-# Ahana's Birthday 🎂
+# Shriya's Birthday 🎂
 
 An interactive, cinematic birthday experience — 9 chapters of memories, puzzles, music, and love.  
 Built with React 19 + Vite 6 + Framer Motion + Tailwind CSS v4.
@@ -20,10 +20,10 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ### One-time setup
 
-1. Push this repo to GitHub
+1. Push this project to a GitHub repository
 2. Go to **Settings → Pages**
 3. Under **Source**, choose **GitHub Actions**
-4. Push any commit to `main` — the included workflow builds and deploys automatically
+4. Push a commit to `main` — the included workflow builds and deploys automatically
 
 Your site will be live at `https://<your-username>.github.io/<repo-name>/`
 
@@ -60,6 +60,13 @@ Replace the placeholder strings with your personal letter. Each string is a para
   className="w-full h-full object-cover rounded-sm"
 />
 ```
+
+### Add the optional Chapter 9 piano track
+
+Place your audio file at `public/audio/chapter9-piano.mp3`. The existing background
+music will fade out automatically when Chapter 9 begins, and the piano track will
+become the only music playing. The file is optional, so the site remains usable
+until you add it.
 
 ### Customise the quiz / memories / apology text
 

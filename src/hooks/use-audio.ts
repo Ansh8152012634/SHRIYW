@@ -97,6 +97,7 @@ function scheduleNote(
   duration: number,
   wave: OscillatorType,
   volume: number,
+  activeSources?: Set<OscillatorNode>,
 ) {
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -113,6 +114,10 @@ function scheduleNote(
 
   osc.start(startTime);
   osc.stop(startTime + duration + 0.05);
+  if (activeSources) {
+    activeSources.add(osc);
+    osc.addEventListener('ended', () => activeSources.delete(osc), { once: true });
+  }
 }
 
 function scheduleBass(
@@ -122,6 +127,7 @@ function scheduleBass(
   startTime: number,
   duration: number,
   volume: number,
+  activeSources?: Set<OscillatorNode>,
 ) {
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -138,6 +144,10 @@ function scheduleBass(
 
   osc.start(startTime);
   osc.stop(startTime + duration + 0.05);
+  if (activeSources) {
+    activeSources.add(osc);
+    osc.addEventListener('ended', () => activeSources.delete(osc), { once: true });
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -296,6 +306,10 @@ export function useAudio() {
   const masterGainRef = useRef<GainNode | null>(null);
   const loopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const currentMoodRef = useRef<ChapterMood | null>(null);
+  const activeMusicSourcesRef = useRef<Set<OscillatorNode>>(new Set());
+  const chapter9PianoRef = useRef<HTMLAudioElement | null>(null);
+  const pianoSourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+  const currentTrackRef = useRef<'mood' | 'piano' | null>(null);
   const isMutedRef = useRef(false);
   const volumeRef = useRef(0.7);
   const isPlayingRef = useRef(false);
@@ -323,6 +337,17 @@ export function useAudio() {
     }
   }, []);
 
+  const stopScheduledMusic = useCallback(() => {
+    activeMusicSourcesRef.current.forEach(source => {
+      try {
+        source.stop();
+      } catch {
+        // An oscillator that has already stopped is safe to ignore.
+      }
+    });
+    activeMusicSourcesRef.current.clear();
+  }, []);
+
   const scheduleMoodLoop = useCallback(
     (mood: ChapterMood, ctx: AudioContext, dest: AudioNode, startTime: number) => {
       if (!isPlayingRef.current) return;
@@ -331,9 +356,18 @@ export function useAudio() {
       const totalDur = config.melody.length * noteDur;
 
       config.melody.forEach((freq, i) => {
-        scheduleNote(ctx, dest, freq, startTime + i * noteDur, noteDur * 0.85, config.wave, config.vol);
+        scheduleNote(
+          ctx,
+          dest,
+          freq,
+          startTime + i * noteDur,
+          noteDur * 0.85,
+          config.wave,
+          config.vol,
+          activeMusicSourcesRef.current,
+        );
       });
-      scheduleBass(ctx, dest, config.bass, startTime, totalDur, config.vol);
+      scheduleBass(ctx, dest, config.bass, startTime, totalDur, config.vol, activeMusicSourcesRef.current);
 
       const msUntilNext = (totalDur - 0.1) * 1000;
       loopTimerRef.current = setTimeout(() => {
@@ -352,7 +386,14 @@ export function useAudio() {
       const dest = masterGainRef.current!;
 
       stopLoop();
+      const piano = chapter9PianoRef.current;
+      if (piano) {
+        piano.pause();
+        piano.currentTime = 0;
+      }
+      stopScheduledMusic();
       currentMoodRef.current = mood;
+      currentTrackRef.current = 'mood';
       isPlayingRef.current = true;
       setIsPlayingState(true);
       setIsUnlocked(true);
@@ -372,26 +413,95 @@ export function useAudio() {
         }, 420);
       }
     },
-    [getCtx, stopLoop, scheduleMoodLoop],
+    [getCtx, stopLoop, scheduleMoodLoop, stopScheduledMusic],
   );
 
   const pause = useCallback(() => {
     stopLoop();
     isPlayingRef.current = false;
     setIsPlayingState(false);
+    if (currentTrackRef.current === 'piano') {
+      chapter9PianoRef.current?.pause();
+    }
+    stopScheduledMusic();
     const ctx = ctxRef.current;
     const master = masterGainRef.current;
     if (ctx && master) {
       master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
       master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
     }
-  }, [stopLoop]);
+  }, [stopLoop, stopScheduledMusic]);
 
   const resume = useCallback(() => {
+    if (currentTrackRef.current === 'piano' && chapter9PianoRef.current) {
+      const piano = chapter9PianoRef.current;
+      const ctx = getCtx();
+      if (ctx.state === 'suspended') ctx.resume();
+      piano.play().then(() => {
+        isPlayingRef.current = true;
+        setIsPlayingState(true);
+      }).catch(() => {
+        // The optional file may not have been added yet.
+      });
+      return;
+    }
     if (currentMoodRef.current) {
       playMood(currentMoodRef.current);
     }
-  }, [playMood]);
+  }, [getCtx, playMood]);
+
+  const playChapter9Piano = useCallback(() => {
+    const ctx = getCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+    const master = masterGainRef.current;
+    if (!master) return;
+
+    stopLoop();
+    stopScheduledMusic();
+    currentMoodRef.current = null;
+    currentTrackRef.current = 'piano';
+    isPlayingRef.current = false;
+    setIsPlayingState(false);
+
+    let piano = chapter9PianoRef.current;
+    if (!piano) {
+      piano = new Audio(`${import.meta.env.BASE_URL}audio/chapter9-piano.mp3`);
+      piano.preload = 'auto';
+      piano.loop = true;
+      piano.addEventListener('error', () => {
+        // The track is intentionally optional until the owner supplies it.
+        isPlayingRef.current = false;
+        setIsPlayingState(false);
+      });
+      chapter9PianoRef.current = piano;
+      pianoSourceRef.current = ctx.createMediaElementSource(piano);
+      pianoSourceRef.current.connect(master);
+    }
+
+    const startPiano = () => {
+      if (!chapter9PianoRef.current) return;
+      chapter9PianoRef.current.play().then(() => {
+        isPlayingRef.current = true;
+        setIsPlayingState(true);
+      }).catch(() => {
+        // Missing audio files and browser autoplay restrictions are non-fatal.
+      });
+    };
+
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
+    master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.45);
+    window.setTimeout(() => {
+      if (!chapter9PianoRef.current || currentTrackRef.current !== 'piano') return;
+      master.gain.setValueAtTime(0, ctx.currentTime);
+      master.gain.linearRampToValueAtTime(
+        isMutedRef.current ? 0 : volumeRef.current,
+        ctx.currentTime + 0.9,
+      );
+      startPiano();
+    }, 480);
+    setIsUnlocked(true);
+  }, [getCtx, stopLoop, stopScheduledMusic]);
 
   const setMuted = useCallback((muted: boolean) => {
     isMutedRef.current = muted;
@@ -445,6 +555,7 @@ export function useAudio() {
 
   return {
     playMood,
+    playChapter9Piano,
     pause,
     resume,
     setMuted,

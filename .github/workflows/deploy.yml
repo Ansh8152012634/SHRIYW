@@ -12,31 +12,30 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build
-        env:
-          # GitHub Pages deploys to https://<user>.github.io/<repo>/
-          # This sets the Vite base path to match your repo name automatically.
-          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+      - name: Build for GitHub Pages
         run: npm run build
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist

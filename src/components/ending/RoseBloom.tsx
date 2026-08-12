@@ -211,12 +211,15 @@ const ROSE_CSS = `
   perspective: 1200px; perspective-origin: 50% 33%;
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  padding-bottom: 5vh;
+   padding-bottom: clamp(1rem, 5vh, 3rem);
+   overflow: visible;
 }
 
 .rb-wrap {
   transform-style: preserve-3d; position: relative;
-  width: 300px; height: 490px;
+   width: clamp(210px, 52vw, 300px);
+   height: clamp(350px, 74vh, 490px);
+   transform-origin: 50% 100%;
   transform: rotateX(-22deg) rotateY(0deg);
   will-change: transform;
 }
@@ -229,7 +232,10 @@ const ROSE_CSS = `
 /* ── Stem ── */
 .rb-stem-group {
   position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 10px; height: 255px; transform-style: preserve-3d;
+   width: clamp(7px, 1.7vw, 10px);
+   height: clamp(195px, 39vh, 255px);
+   z-index: 4;
+   transform-style: preserve-3d;
 }
 .rb-stem {
   position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
@@ -279,7 +285,7 @@ const ROSE_CSS = `
 
 /* ── Calyx / Sepals ── */
 .rb-calyx {
-  position:absolute; bottom:248px; left:50%; transform:translateX(-50%);
+   position:absolute; bottom:clamp(193px, 38.5vh, 248px); left:50%; transform:translateX(-50%);
   width:0; height:0; transform-style:preserve-3d; z-index:1;
 }
 .rb-sepal {
@@ -302,7 +308,7 @@ const ROSE_CSS = `
 
 /* ── Rose head ── */
 .rb-head {
-  position:absolute; bottom:252px; left:50%;
+   position:absolute; bottom:clamp(197px, 39vh, 252px); left:50%;
   transform: translateX(-50%);
   width:0; height:0; transform-style:preserve-3d; z-index:10;
 }

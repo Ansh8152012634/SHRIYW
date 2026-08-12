@@ -43,7 +43,7 @@ const LETTER_PARAGRAPHS = [
 
   "Btw 12 baje Tulip account pe voicenote bhej diya tha. Aur Mimsii ko toh mera birthday 15 Aug pe hai boli thi na, aur aapka birthday 8 June boli thi. 😂 Meri betu ko belt se maarna band karo chudail ji. 🧙🏿‍♀️",
 
-  "Happy Birthday Mochi (Ahana) 👽",
+  "Happy Birthday Mochi (Shriya) 👽",
   "Happy Birthday Elley (Aditi) 🤡",
   "Happy Birthday Shatakshi 👺",
   "Happy Birthday Tulip (Avni) 🪻",
@@ -80,7 +80,7 @@ const LETTER_PARAGRAPHS = [
 
   "",
 
-  "Happy Birthday once again, Ahana. ❤️"
+  "Happy Birthday once again, Shriya. ❤️"
 ];
 
 const PHOTO_ROTATIONS = [-3.2, 2.1, -1.8, 3.5];
@@ -226,7 +226,7 @@ export function Chapter9Epilogue({ fadeOutAudio, playGiftReadySfx, playTulipBloo
   const [photoCount,    setPhotoCount]    = useState(0);
   const [roseVisible,   setRoseVisible]   = useState(false);
 
-  const letterIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const letterRafRef = useRef<number | null>(null);
   const roseTimersRef     = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   // ── Main story timeline ─────────────────────────────────────────────────
@@ -241,26 +241,38 @@ export function Chapter9Epilogue({ fadeOutAudio, playGiftReadySfx, playTulipBloo
       [17500, () => {
         setScene('letter');
         const totalChars = LETTER_PARAGRAPHS.join('\n').length;
-        const speed = totalChars > 0 ? 87000 / totalChars : 60;
-        let elapsed = 0;
-        letterIntervalRef.current = setInterval(() => {
-          elapsed += speed;
-          setLetterProgress(Math.min(elapsed / 87000, 1));
-          if (elapsed >= 87000) clearInterval(letterIntervalRef.current!);
-        }, speed);
+        const revealDuration = 120000;
+        const startedAt = performance.now();
+        let lastVisibleChars = -1;
+        const reveal = (now: number) => {
+          const progress = totalChars > 0
+            ? Math.min((now - startedAt) / revealDuration, 1)
+            : 1;
+          const visibleChars = Math.floor(totalChars * progress);
+          if (visibleChars !== lastVisibleChars) {
+            lastVisibleChars = visibleChars;
+            setLetterProgress(progress);
+          }
+          if (progress < 1) {
+            letterRafRef.current = requestAnimationFrame(reveal);
+          } else {
+            letterRafRef.current = null;
+          }
+        };
+        letterRafRef.current = requestAnimationFrame(reveal);
         [4000, 8000, 13000, 18000].forEach((d, idx) => setTimeout(() => setPhotoCount(idx + 1), d));
       }],
-      [112000, () => setScene('journal-close')],
-      [115500, () => { fadeOutAudio?.(); setScene('fade-black'); }],
-      [118000, () => setScene('gift-card')],
-      [133000, () => { playGiftReadySfx?.(); setScene('gift-ready'); }],
+      [150000, () => setScene('journal-close')],
+      [153500, () => { fadeOutAudio?.(); setScene('fade-black'); }],
+      [156000, () => setScene('gift-card')],
+      [171000, () => { playGiftReadySfx?.(); setScene('gift-ready'); }],
     ];
 
     const timers = seq.map(([delay, fn]) => setTimeout(fn, delay));
     return () => {
       timers.forEach(clearTimeout);
       roseTimersRef.current.forEach(clearTimeout);
-      if (letterIntervalRef.current) clearInterval(letterIntervalRef.current);
+      if (letterRafRef.current !== null) cancelAnimationFrame(letterRafRef.current);
     };
   }, []);
 

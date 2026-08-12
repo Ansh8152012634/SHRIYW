@@ -4,21 +4,21 @@ const DOWNLOADS = [
   {
     label: '1 · Full React Project',
     description: 'The complete Vite + React + TypeScript source — run with pnpm/npm locally.',
-    file: 'ahana-birthday-full-project.zip',
+    file: 'shriya-birthday-full-project.zip',
     icon: '📦',
-    hint: 'Best for: editing content, adding features, running on Replit',
+    hint: 'Best for: editing content, adding features, and self-hosting',
   },
   {
     label: '2 · GitHub Pages Ready',
     description: 'Same source but pre-configured for GitHub Pages + a CI/CD workflow included.',
-    file: 'ahana-birthday-github.zip',
+    file: 'shriya-birthday-github.zip',
     icon: '🐙',
     hint: 'Best for: deploying free via GitHub Pages',
   },
   {
     label: '3 · Standalone HTML/CSS/JS',
     description: 'One single index.html file — no build step, no node_modules. Open in any browser.',
-    file: 'ahana-birthday-vanilla-html.zip',
+    file: 'shriya-birthday-vanilla-html.zip',
     icon: '🌐',
     hint: 'Best for: sharing as a file, offline use, simple hosting',
   },
@@ -47,7 +47,7 @@ export default function Downloads() {
           className="text-center mb-10"
         >
           <p className="serif text-primary/50 text-sm tracking-widest mb-3">— Downloads —</p>
-          <h1 className="serif text-4xl text-foreground/90 mb-2">Ahana's Birthday</h1>
+          <h1 className="serif text-4xl text-foreground/90 mb-2">Shriya's Birthday</h1>
           <p className="text-muted-foreground text-sm">Three formats, one experience.</p>
         </motion.div>
 
